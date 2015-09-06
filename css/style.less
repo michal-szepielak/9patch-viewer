@@ -1,3 +1,77 @@
+@background-color: #e6e8ec;
+@secondary-color: #79daf0;
+@primary-color: #a4aab3;
+@main-text-color: #505661;
+
+@import "../libs/mixins";
+
+html, body {
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  background-color: @background-color;
+  color: @main-text-color;
+}
+
+
+h1.header-with-logo {
+  color: @secondary-color;
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 28px;
+  min-height: 60px;
+  vertical-align: middle;
+  margin-top: 0;
+  .second-color {
+    color: @primary-color;
+  }
+
+  span.logo {
+    display: inline-block;
+    vertical-align: middle;
+    background-image: url(../img/logo.png);
+    background-repeat: no-repeat;
+    background-position: 0 50%;
+    background-size: auto 60px;
+    width: 60px;
+    margin-right: 12px;
+    height: 60px;
+    float: left;
+
+    @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 2dppx) {
+      background-image: url(../img/logo@2x.png);
+    }
+
+    @media only screen and (-webkit-min-device-pixel-ratio: 3), only screen and (min--moz-device-pixel-ratio: 3), only screen and (-o-min-device-pixel-ratio: 3/1), only screen and (min-device-pixel-ratio: 3), only screen and (min-resolution: 3dppx) {
+      background-image: url(../img/logo@3x.png);
+  }
+ }
+}
+
+.clear {
+  clear: both;
+}
+
+.wrapper {
+  display: block;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 60px 2em;
+}
+
+.btn {
+  display: inline-block;
+  float: right;
+  background-color: @secondary-color;
+  border: 1px solid darken(@secondary-color, 10%);
+  color: darken(@secondary-color, 40%);
+  .border-radius(3px);
+  font-size: 16px;
+  text-transform: uppercase;
+  padding: 20px 50px;
+  outline: none;
+
+}
+
 .preview {
   position: relative;
   display: block;

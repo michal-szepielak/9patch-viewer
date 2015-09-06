@@ -3,10 +3,24 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>9patch viewer</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,900" rel="stylesheet" type="text/css">
+    <link href="bower_components/normalize-css/normalize.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <script src="js/ninepatch.js"></script>
 </head>
 <body>
+<div class="wrapper">
+    <h1 class="header-with-logo">
+        <span class="logo"></span>
+        patch <span class="second-color">viewer</span>
+    </h1>
+
+    <p>
+        This 9patch viewer allows you to quickly test your nine-patches.
+        <button class="btn">Import 9patch</button>
+    </p>
+
+    <div class="clear"></div>
     <h4>Nine Patch</h4>
     <img id="img" src="img/example.9.png">
 
@@ -23,7 +37,7 @@
         </p>
         <div id="preview-container"></div>
     </div>
-
+</div>
     <script>
         var img = document.getElementById("img");
         img.onload = function () {

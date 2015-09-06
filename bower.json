@@ -1,0 +1,21 @@
+{
+  "name": "9patch-viewer",
+  "version": "0.1.0",
+  "homepage": "https://github.com/michal-szepielak/9patch-viewer",
+  "authors": [
+    "Michał Szepielak <github@logicart.pl>"
+  ],
+  "description": "Tool for fast preview and test 9patch images.",
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "normalize-css": "normalize.css#~3.0.3"
+  }
+}

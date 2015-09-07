@@ -7,6 +7,7 @@
     <link href="bower_components/normalize-css/normalize.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <script src="js/ninepatch.js"></script>
+    <script src="js/main.js"></script>
 </head>
 <body>
 <div class="wrapper">
@@ -17,32 +18,17 @@
 
     <p>
         This 9patch viewer allows you to quickly test your nine-patches.
-        <button class="btn">Import 9patch</button>
+        <button class="btn" id="upload-button">Import 9patch</button>
+        <input type="file" class="hidden" id="upload-input">
     </p>
 
     <div class="clear"></div>
-    <h4>Nine Patch</h4>
-    <img id="img" src="img/example.9.png">
 
     <h4>Preview</h4>
     <div class="preview">
-        <p id="content-container">
-            Once you call it in, the people who show up with be with the office
-            of medical investigations. it's primarily who you'll talk to. Police
-            officers may arrive they may not, depends on how busy a morning
-            they're having. Typically ODs are not a high priority call. There's
-            nothing here to incriminate you, so I'd be amazed if you got placed
-            under arrest. However, if you do, you say nothing. You tell them you
-            just want your lawyer. And you call Saul Goodman.
-        </p>
+        <p id="content-container" contenteditable="true"></p>
         <div id="preview-container"></div>
     </div>
 </div>
-    <script>
-        var img = document.getElementById("img");
-        img.onload = function () {
-            var z = new NinePatch(img);
-        }
-    </script>
 </body>
 </html>

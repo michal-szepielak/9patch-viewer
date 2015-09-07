@@ -93,3 +93,6 @@ table td {
   z-index: 2;
   position: relative;
 }
+.hidden {
+  display: none;
+}

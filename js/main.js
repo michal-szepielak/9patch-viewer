@@ -1,11 +1,16 @@
 document.addEventListener('DOMContentLoaded', function () {
     var uploadButton = document.getElementById('upload-button'),
         uploadInput = document.getElementById('upload-input'),
-        img = new Image();
+        previewContainer = document.getElementById('preview-container'),
+        img = new Image(),
+        ninePatch;
 
     img.onload = function () {
-        // @TODO: create destoryer
-        new NinePatch(this);
+        if (ninePatch instanceof NinePatch) {
+            ninePatch.destroy();
+        }
+        ninePatch = new NinePatch(this, previewContainer);
+
         document.getElementById('content-container').innerText = "Once you call it in, the people who show up with be with the office \
         of medical investigations. it's primarily who you'll talk to. Police\
         officers may arrive they may not, depends on how busy a morning\

@@ -2,11 +2,22 @@
 var NinePatch = (function () {
     'use strict';
 
-    var NinePatch = function (img) {
+    /**
+     * @param img {Image} Target image from which should be preview created
+     * @param previewContainer {HTMLElement} Container for preview
+     * @constructor
+     */
+    var NinePatch = function (img, previewContainer) {
         this.canvas = null;
+        this.previewContainer = previewContainer;
         this.createPreviewFromImage(img);
     };
 
+    /**
+     * Returns area which is cover by ninepatch guides.
+     * @param imgData
+     * @returns {Array} Found areas
+     */
     function findArea(imgData) {
         var i, r, g, b, a,
             data = imgData.data,
@@ -187,7 +198,7 @@ var NinePatch = (function () {
 
         el = document.createElement('table');
         el.appendChild(doc);
-        document.getElementById('preview-container').appendChild(el);
+        this.previewContainer.appendChild(el);
     };
 
     NinePatch.prototype.setupContent = function (horizontal, vertical) {
@@ -205,6 +216,10 @@ var NinePatch = (function () {
         area = vertical[vertical.length - 1];
         containerStyle.paddingBottom = area.flexible ? '0' : area.size + 'px';
 
+    };
+
+    NinePatch.prototype.destroy = function () {
+        this.previewContainer.innerHTML = '';
     };
 
     return NinePatch;

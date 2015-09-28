@@ -50,6 +50,7 @@ h1.header-with-logo span.logo {
 }
 .btn {
   display: inline-block;
+  position: relative;
   float: right;
   background-color: #79daf0;
   border: 1px solid #4bcdeb;
@@ -61,6 +62,53 @@ h1.header-with-logo span.logo {
   text-transform: uppercase;
   padding: 20px 50px;
   outline: none;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+.btn:before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  content: '';
+  font: inherit;
+  display: block;
+  width: 0;
+  height: 100%;
+  background-color: #1dc1e6;
+  z-index: -1;
+  transition-property: width;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-out;
+}
+.btn.progress-100:before {
+  width: 100%;
+}
+.btn.progress-90:before {
+  width: 90%;
+}
+.btn.progress-80:before {
+  width: 80%;
+}
+.btn.progress-70:before {
+  width: 70%;
+}
+.btn.progress-60:before {
+  width: 60%;
+}
+.btn.progress-50:before {
+  width: 50%;
+}
+.btn.progress-40:before {
+  width: 40%;
+}
+.btn.progress-30:before {
+  width: 30%;
+}
+.btn.progress-20:before {
+  width: 20%;
+}
+.btn.progress-10:before {
+  width: 10%;
 }
 .preview {
   position: relative;

@@ -1,7 +1,12 @@
 var ImageLoader = (function () {
     'use strict';
 
-    var ImageLoader = function (element, onImageLoad, onError) {
+    var loaderStates = {
+            'SUCCESS': 'green',
+            'ERROR': 'red',
+            'IDLE': ''
+        },
+        ImageLoader = function (element, onImageLoad, onError) {
         if (!element) {
             console.warn('Couldn\'t bind ImageLoader to element!');
             return false;
@@ -37,6 +42,7 @@ var ImageLoader = (function () {
     }
 
     function fileReadInterruption(self, event) {
+        self.setLoaderState('error');
         self.onError(event);
     }
 
@@ -50,11 +56,19 @@ var ImageLoader = (function () {
     }
 
     function fileReadLoad(self, event) {
-        var image = new Image();
+        var target = event.target,
+            image;
 
-        image.src = event.target.result;
-        self.onImageLoad(image);
-        self.setProgress(100);
+        if (target.readyState === FileReader.DONE) {
+            self.setProgress(100);
+
+            image = new Image();
+            image.src = target.result;
+            image.onLoad = function () {
+                self.onImageLoad(image);
+                self.setLoaderState(loaderStates.SUCCESS);
+            };
+        }
     }
 
     function fileReadProgress(self, event) {
@@ -62,7 +76,27 @@ var ImageLoader = (function () {
     }
 
     ImageLoader.prototype.setProgress = function (progress) {
-        this.element.className = 'btn progress-' + (Math.floor(progress / 10) * 10);
+        this.setLoaderState('progress', Math.floor(progress / 10) * 10);
+    };
+
+    ImageLoader.prototype.setLoaderState = function (state, variant) {
+        var stateClass;
+
+        state = state.toLowerCase();
+        switch (state) {
+            case 'idle':
+            case 'error':
+            case 'success':
+                stateClass = state;
+                break;
+            case 'progress':
+                stateClass = state + '-' + variant;
+                break;
+            default:
+                stateClass = '';
+        }
+
+        this.element.className = 'btn ' + stateClass;
     };
 
     ImageLoader.prototype.build = function () {

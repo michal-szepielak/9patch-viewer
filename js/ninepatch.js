@@ -206,16 +206,37 @@ var NinePatch = (function () {
             containerStyle = container.style,
             area;
 
-        area = horizontal[0];
-        containerStyle.paddingLeft = area.flexible ? '0' : area.size + 'px';
-        area = horizontal[horizontal.length - 1];
-        containerStyle.paddingRight = area.flexible ? '0' : area.size + 'px';
+        // If there are multiple block, set the padding left
+        if (horizontal.length > 1) {
+            area = horizontal[0];
+            containerStyle.paddingLeft = area.flexible ? '0' : area.size + 'px';
+        } else {
+            containerStyle.paddingLeft = 0;
+        }
 
-        area = vertical[0];
-        containerStyle.paddingTop = area.flexible ? '0' : area.size + 'px';
-        area = vertical[vertical.length - 1];
-        containerStyle.paddingBottom = area.flexible ? '0' : area.size + 'px';
+        // If there are at least 3 blocks, set padding right
+        if (horizontal.length > 2) {
+            area = horizontal[horizontal.length - 1];
+            containerStyle.paddingRight = area.flexible ? '0' : area.size + 'px';
+        } else {
+            containerStyle.paddingRight = 0;
+        }
 
+        // If there are multiple block, set the padding top
+        if (vertical.length > 1) {
+            area = vertical[0];
+            containerStyle.paddingTop = area.flexible ? '0' : area.size + 'px';
+        } else {
+            containerStyle.paddingTop = 0;
+        }
+
+        // If there are at least 3 blocks, set padding bottom
+        if (vertical.length > 2) {
+            area = vertical[vertical.length - 1];
+            containerStyle.paddingBottom = area.flexible ? '0' : area.size + 'px';
+        } else {
+            containerStyle.paddingBottom = 0;
+        }
     };
 
     NinePatch.prototype.destroy = function () {

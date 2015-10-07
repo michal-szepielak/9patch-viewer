@@ -9,7 +9,7 @@ var ImageLoader = (function () {
         ImageLoader = function (element, onImageLoad, onError) {
         if (!element) {
             console.warn('Couldn\'t bind ImageLoader to element!');
-            return false;
+            return;
         }
 
         this.eventBounds = null;
@@ -53,6 +53,7 @@ var ImageLoader = (function () {
 
     function fileReadLoadEnd(self, event) {
         console.log('fileReadLoadEnd', event);
+
     }
 
     function fileReadLoad(self, event) {
@@ -64,10 +65,8 @@ var ImageLoader = (function () {
 
             image = new Image();
             image.src = target.result;
-            image.onLoad = function () {
-                self.onImageLoad(image);
-                self.setLoaderState(loaderStates.SUCCESS);
-            };
+            self.setLoaderState(loaderStates.SUCCESS);
+            self.onImageLoad(image);
         }
     }
 

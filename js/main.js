@@ -5,6 +5,13 @@ document.addEventListener('DOMContentLoaded', function () {
         imageLoader,
         ninePatch;
 
+    // Load preview bubble
+    img.onload = function () {
+        ninePatch = new NinePatch(this, previewContainer);
+    };
+    img.src = 'img/preview.bubble.9.png';
+
+    // Init image loader
     imageLoader = new ImageLoader(uploadButton, function (image) {
         if (ninePatch instanceof NinePatch) {
             ninePatch.destroy();

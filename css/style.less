@@ -4,6 +4,8 @@
 @main-text-color: #505661;
 
 @import "../libs/mixins";
+@import "imports/button";
+@import "imports/drop-zone";
 
 html, body {
   font-family: 'Lato', sans-serif;
@@ -58,47 +60,6 @@ h1.header-with-logo {
   padding: 60px 2em;
 }
 
-.btn {
-  display: inline-block;
-  position: relative;
-  float: right;
-  background-color: @secondary-color;
-  border: 1px solid darken(@secondary-color, 10%);
-  color: darken(@secondary-color, 40%);
-  .border-radius(3px);
-  font-size: 16px;
-  text-transform: uppercase;
-  padding: 20px 50px;
-  outline: none;
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
-
-
-  &:before {
-      position: absolute;
-      left: 0;
-      top: 0;
-      content: '';
-      font: inherit;
-      display: block;
-      width: 0;
-      height: 100%;
-      background-color: darken(@secondary-color, 20%);
-      z-index: -1;
-
-      transition-property: width;
-      transition-duration: 0.3s;
-      transition-timing-function: ease-out;
-  }
-}
-
-.btn-loop (@i) when (@i > 0) {
-    .btn.progress-@{i}:before {
-        width: percentage(@i / 100);
-    }
-    .btn-loop(@i - 10);
-}
-.btn-loop(100);
 
 .preview {
   position: relative;
@@ -138,8 +99,4 @@ table td {
   padding: 100px;
   z-index: 2;
   position: relative;
-}
-
-.hidden {
-  display: none;
 }

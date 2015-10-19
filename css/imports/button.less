@@ -1,0 +1,41 @@
+.btn {
+  display: inline-block;
+  position: relative;
+  float: right;
+  background-color: @secondary-color;
+  border: 1px solid darken(@secondary-color, 10%);
+  color: darken(@secondary-color, 40%);
+  .border-radius(3px);
+  font-size: 16px;
+  text-transform: uppercase;
+  padding: 20px 50px;
+  outline: none;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+
+
+  &:before {
+    position: absolute;
+    left: 0;
+    top: 0;
+    content: '';
+    font: inherit;
+    display: block;
+    width: 0;
+    height: 100%;
+    background-color: darken(@secondary-color, 20%);
+    z-index: -1;
+
+    transition-property: width;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+  }
+}
+
+.btn-loop (@i) when (@i > 0) {
+  .btn.progress-@{i}:before {
+    width: percentage(@i / 100);
+  }
+  .btn-loop(@i - 10);
+}
+.btn-loop(100);

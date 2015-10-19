@@ -3,7 +3,8 @@ document.addEventListener('DOMContentLoaded', function () {
         previewContainer = document.getElementById('preview-container'),
         img = new Image(),
         imageLoader,
-        ninePatch;
+        ninePatch,
+        ui;
 
     // Load preview bubble
     img.onload = function () {
@@ -12,7 +13,12 @@ document.addEventListener('DOMContentLoaded', function () {
     img.src = 'img/preview.bubble.9.png';
 
     // Init image loader
-    imageLoader = new ImageLoader(uploadButton, function (image) {
+    ui = {
+        element: uploadButton,
+        dropZoneContainer: document.querySelector('.drop-zone'),
+        documentMain: document.querySelector('main')
+    };
+    imageLoader = new ImageLoader(ui, function (image) {
         if (ninePatch instanceof NinePatch) {
             ninePatch.destroy();
         }

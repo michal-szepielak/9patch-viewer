@@ -1,53 +1,3 @@
-html,
-body {
-  font-family: 'Lato', sans-serif;
-  font-weight: 400;
-  background-color: #e6e8ec;
-  color: #505661;
-}
-h1.header-with-logo {
-  color: #79daf0;
-  font-weight: normal;
-  font-size: 32px;
-  line-height: 28px;
-  min-height: 60px;
-  vertical-align: middle;
-  margin-top: 0;
-}
-h1.header-with-logo .second-color {
-  color: #a4aab3;
-}
-h1.header-with-logo span.logo {
-  display: inline-block;
-  vertical-align: middle;
-  background-image: url(../img/logo.png);
-  background-repeat: no-repeat;
-  background-position: 0 50%;
-  background-size: auto 60px;
-  width: 60px;
-  margin-right: 12px;
-  height: 60px;
-  float: left;
-}
-@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 2dppx) {
-  h1.header-with-logo span.logo {
-    background-image: url(../img/logo@2x.png);
-  }
-}
-@media only screen and (-webkit-min-device-pixel-ratio: 3), only screen and (min--moz-device-pixel-ratio: 3), only screen and (-o-min-device-pixel-ratio: 3/1), only screen and (min-device-pixel-ratio: 3), only screen and (min-resolution: 3dppx) {
-  h1.header-with-logo span.logo {
-    background-image: url(../img/logo@3x.png);
-  }
-}
-.clear {
-  clear: both;
-}
-.wrapper {
-  display: block;
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 60px 2em;
-}
 .btn {
   display: inline-block;
   position: relative;
@@ -110,6 +60,116 @@ h1.header-with-logo span.logo {
 .btn.progress-10:before {
   width: 10%;
 }
+.drop-zone {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.6);
+  opacity: 0;
+  -webkit-transition: opacity 400ms ease-out;
+  -moz-transition: opacity 400ms ease-out;
+  -ms-transition: opacity 400ms ease-out;
+  -o-transition: opacity 400ms ease-out;
+  transition: opacity 400ms ease-out;
+}
+.drop-zone .marker {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 9px dashed #79daf0;
+  color: #a4aab3;
+  font-size: 2em;
+  border-radius: 30px;
+  width: 50%;
+  height: 60%;
+}
+.drop-zone .marker p {
+  text-align: center;
+}
+.drop-zone .marker .drop-arrow {
+  height: 2em;
+  width: auto;
+  margin-bottom: 0.5em;
+}
+.drop-zone .marker .drop-arrow path {
+  fill: #a4aab3;
+}
+.drop-zone.faded {
+  opacity: 1;
+}
+.clonned {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  -webkit-transition: all 400ms ease-out;
+  -moz-transition: all 400ms ease-out;
+  -ms-transition: all 400ms ease-out;
+  -o-transition: all 400ms ease-out;
+  transition: all 400ms ease-out;
+}
+.blurred {
+  filter: blur(5px);
+  -webkit-filter: blur(5px);
+}
+.hidden {
+  display: none;
+}
+html,
+body {
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  background-color: #e6e8ec;
+  color: #505661;
+}
+h1.header-with-logo {
+  color: #79daf0;
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 28px;
+  min-height: 60px;
+  vertical-align: middle;
+  margin-top: 0;
+}
+h1.header-with-logo .second-color {
+  color: #a4aab3;
+}
+h1.header-with-logo span.logo {
+  display: inline-block;
+  vertical-align: middle;
+  background-image: url(../img/logo.png);
+  background-repeat: no-repeat;
+  background-position: 0 50%;
+  background-size: auto 60px;
+  width: 60px;
+  margin-right: 12px;
+  height: 60px;
+  float: left;
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 2dppx) {
+  h1.header-with-logo span.logo {
+    background-image: url(../img/logo@2x.png);
+  }
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 3), only screen and (min--moz-device-pixel-ratio: 3), only screen and (-o-min-device-pixel-ratio: 3/1), only screen and (min-device-pixel-ratio: 3), only screen and (min-resolution: 3dppx) {
+  h1.header-with-logo span.logo {
+    background-image: url(../img/logo@3x.png);
+  }
+}
+.clear {
+  clear: both;
+}
+.wrapper {
+  display: block;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 60px 2em;
+}
 .preview {
   position: relative;
   display: block;
@@ -144,7 +204,4 @@ table td {
   padding: 100px;
   z-index: 2;
   position: relative;
-}
-.hidden {
-  display: none;
 }

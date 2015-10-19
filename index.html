@@ -11,22 +11,37 @@
     <script src="js/main.js"></script>
 </head>
 <body>
-<div class="wrapper">
-    <h1 class="header-with-logo">
-        <span class="logo"></span>
-        patch <span class="second-color">viewer</span>
-    </h1>
+<main>
+    <div class="wrapper">
+        <h1 class="header-with-logo">
+            <span class="logo"></span>
+            patch <span class="second-color">viewer</span>
+        </h1>
 
-    <p>
-        This 9patch viewer allows you to quickly test your nine-patches.
-        <button class="btn" id="upload-button" data-progress="20%">Import 9patch</button>
-    </p>
+        <p>
+            This 9patch viewer allows you to quickly test your nine-patches.
+            <button class="btn" id="upload-button" data-progress="20%">Import 9patch</button>
+        </p>
 
-    <div class="clear"></div>
+        <div class="clear"></div>
 
-    <div class="preview">
-        <p id="content-container" class="content-container" contenteditable="true"></p>
-        <div id="preview-container"></div>
+        <div class="preview">
+            <p id="content-container" class="content-container" contenteditable="true"></p>
+            <div id="preview-container"></div>
+        </div>
+    </div>
+</main>
+<div class="drop-zone hidden">
+    <div class="marker">
+        <p>
+            <svg class="drop-arrow" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="30px" height="35px" viewBox="0 0 30 35" enable-background="new 0 0 30 35" xml:space="preserve">
+            <path d="M16.082,33.545L28.553,20.87c0.437-0.445,0.567-1.114,0.332-1.695s-0.797-0.959-1.416-0.959h-6.654V0H9.186v18.215H2.529
+                c-0.619,0-1.177,0.378-1.413,0.959C1.037,19.367,1,19.569,1,19.77c0,0.405,0.156,0.802,0.448,1.101l12.47,12.675
+                C14.204,33.834,14.596,34,15,34C15.402,34,15.798,33.834,16.082,33.545z"/>
+            </svg>
+            <br>
+            Drop file here
+        </p>
     </div>
 </div>
 </body>

@@ -1,0 +1,33 @@
+.drop-zone {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.4);
+}
+.drop-zone .marker {
+  display: inline-block;
+  border: 9px dashed #000;
+  border-radius: 30px;
+  width: 40%;
+  height: 40%;
+}
+.clonned {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  -webkit-transition: all 500ms;
+  -moz-transition: all 500ms;
+  -ms-transition: all 500ms;
+  -o-transition: all 500ms;
+  transition: all 500ms;
+}
+.blurred {
+  filter: blur(5px);
+  -webkit-filter: blur(5px);
+}

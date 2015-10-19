@@ -1,36 +1,56 @@
 var ImageLoader = (function () {
     'use strict';
 
-    var loaderStates = {
+    var dragCollection = [],
+        loaderStates = {
             'SUCCESS': 'green',
             'ERROR': 'red',
             'IDLE': ''
         },
-        ImageLoader = function (element, onImageLoad, onError) {
-        if (!element) {
-            console.warn('Couldn\'t bind ImageLoader to element!');
-            return;
-        }
+        fileDialogOpened = false,
+        fileDropZoneOpened = false,
+        ImageLoader = function (uiObjects, onImageLoad, onError) {
 
-        this.eventBounds = null;
-        this.hiddenInput = null;
-        this.fileReader = new FileReader();
-        this.onImageLoad = onImageLoad || function () { return false; };
-        this.onError = onError || function () { return false; };
-        this.element = element;
-        this.build();
-        this.bindEvents();
+            if (!uiObjects.element) {
+                console.warn('Couldn\'t bind ImageLoader to element!');
+                return;
+            }
 
-        return this;
-    };
+            if (!uiObjects.dropZoneContainer) {
+                console.warn('Couldn\'t bind ImageLoader to dropZoneContainer!');
+                return;
+            }
+
+            if (!uiObjects.documentMain) {
+                console.warn('Couldn\'t bind ImageLoader to documentMain!');
+                return;
+            }
+
+            this.eventBounds = null;
+            this.hiddenInput = null;
+            this.fileReader = new FileReader();
+            this.onImageLoad = onImageLoad || function () { return false; };
+            this.onError = onError || function () { return false; };
+            this.ui = uiObjects;
+            this.ui.clonedMain = null;
+            this.build();
+            this.bindEvents();
+
+            return this;
+        };
 
     function elementClick(self, event) {
         event.stopPropagation();
-        self.hiddenInput.click();
+        self.showDropZone(true);
+        setTimeout(function () {
+            self.hiddenInput.click();
+            fileDialogOpened = true;
+        }, 400);
     }
 
     function fileChange(self, event) {
         event.stopPropagation();
+        self.hideDropZone();
 
         if (self.fileReader.readyState === FileReader.LOADING) {
             self.fileReader.abort();
@@ -74,6 +94,66 @@ var ImageLoader = (function () {
         self.setProgress(Math.round(event.loaded / event.total * 100));
     }
 
+    function windowFocus(self) {
+        if (fileDialogOpened) {
+            self.hideDropZone();
+            fileDialogOpened = false;
+        }
+    }
+
+    function preventDefault(event) {
+        event.preventDefault();
+        return false;
+    }
+
+    function onFileDragEnter(self, event) {
+        event.preventDefault();
+
+        if (dragCollection.length === 0) {
+            if (!fileDropZoneOpened) {
+                self.showDropZone();
+            }
+            fileDropZoneOpened = true;
+        }
+
+        if (dragCollection.indexOf(event.target) < 0) {
+            dragCollection.push(event.target);
+        }
+        return false;
+    }
+
+    function onFileDragLeave(self, event) {
+        var itemIndex;
+        event.preventDefault();
+
+        itemIndex = dragCollection.indexOf(event.target);
+        if (itemIndex >= 0) {
+            dragCollection.splice(itemIndex, 1);
+        }
+
+        if (dragCollection.length === 0) {
+            if (fileDropZoneOpened) {
+                self.hideDropZone();
+            }
+            fileDropZoneOpened = false;
+        }
+        console.log(event.target, event.relatedTarget);
+
+        return false;
+    }
+
+    function onFileDrop(self, event) {
+        event.preventDefault();
+
+        if (fileDropZoneOpened) {
+            self.hideDropZone();
+        }
+        fileDropZoneOpened = false;
+        dragCollection = [];
+
+        return false;
+    }
+
     ImageLoader.prototype.setProgress = function (progress) {
         this.setLoaderState('progress', Math.floor(progress / 10) * 10);
     };
@@ -95,60 +175,129 @@ var ImageLoader = (function () {
                 stateClass = '';
         }
 
-        this.element.className = 'btn ' + stateClass;
+        this.ui.element.className = 'btn ' + stateClass;
     };
 
     ImageLoader.prototype.build = function () {
         var input = document.createElement('input'),
-            parent = this.element.parentElement;
+            parent = this.ui.element.parentElement;
 
         input.type = 'file';
+        input.accept = '.png';
         this.hiddenInput = input;
     };
 
     ImageLoader.prototype.bindEvents = function () {
-        var bounds = {
-            elementClick: elementClick.bind(null, this),
-            fileChange: fileChange.bind(null, this),
-            fileReadAbort: fileReadInterruption.bind(null, this),
-            fileReadError: fileReadInterruption.bind(null, this),
-            fileReadLoadStart: fileReadLoadStart.bind(null, this),
-            fileReadLoadEnd: fileReadLoadEnd.bind(null, this),
-            fileReadLoad: fileReadLoad.bind(null, this),
-            fileReadProgress: fileReadProgress.bind(null, this)
-        };
+        var fileReader = this.fileReader,
+            bounds = {
+                windowFocus: windowFocus.bind(null, this),
+                elementClick: elementClick.bind(null, this),
+                fileChange: fileChange.bind(null, this),
+                fileReadAbort: fileReadInterruption.bind(null, this),
+                fileReadError: fileReadInterruption.bind(null, this),
+                fileReadLoadStart: fileReadLoadStart.bind(null, this),
+                fileReadLoadEnd: fileReadLoadEnd.bind(null, this),
+                fileReadLoad: fileReadLoad.bind(null, this),
+                fileReadProgress: fileReadProgress.bind(null, this),
+                onDragOver: preventDefault.bind(null),
+                onDragEnter: onFileDragEnter.bind(null, this),
+                onDragLeave: onFileDragLeave.bind(null, this),
+                onDrop: onFileDrop.bind(null, this)
+            };
 
-        this.element.addEventListener('click', bounds.elementClick, true);
+        this.ui.element.addEventListener('click', bounds.elementClick, true);
         this.hiddenInput.addEventListener('change', bounds.fileChange, true);
 
-        this.fileReader.addEventListener('abort', bounds.fileReadAbort, false);
-        this.fileReader.addEventListener('error', bounds.fileReadError, false);
-        this.fileReader.addEventListener('loadstart', bounds.fileReadLoadStart, false);
-        this.fileReader.addEventListener('loadend', bounds.fileReadLoadEnd, false);
-        this.fileReader.addEventListener('load', bounds.fileReadLoad, false);
-        this.fileReader.addEventListener('progress', bounds.fileReadProgress, false);
+        fileReader.addEventListener('abort', bounds.fileReadAbort, false);
+        fileReader.addEventListener('error', bounds.fileReadError, false);
+        fileReader.addEventListener('loadstart', bounds.fileReadLoadStart, false);
+        fileReader.addEventListener('loadend', bounds.fileReadLoadEnd, false);
+        fileReader.addEventListener('load', bounds.fileReadLoad, false);
+        fileReader.addEventListener('progress', bounds.fileReadProgress, false);
+
+        window.addEventListener('focus', bounds.windowFocus, false);
+        window.addEventListener('dragover', bounds.onDragOver, true);
+        window.addEventListener('dragenter', bounds.onDragEnter, true);
+        window.addEventListener('dragleave', bounds.onDragLeave, true);
+
+        document.addEventListener('drop', bounds.onDrop, true);
 
         this.eventBounds = bounds;
     };
 
     ImageLoader.prototype.unbindEvents = function () {
-        this.element.removeEventListener('click', this.eventBounds.elementClick, true);
+        var fileReader = this.fileReader;
+
+        this.ui.element.removeEventListener('click', this.eventBounds.elementClick, true);
         this.hiddenInput.removeEventListener('change', this.eventBounds.fileChange, true);
 
-        this.fileReader.removeEventListener('abort', bounds.fileReadAbort, false);
-        this.fileReader.removeEventListener('error', bounds.fileReadError, false);
-        this.fileReader.removeEventListener('loadstart', bounds.fileReadLoadStart, false);
-        this.fileReader.removeEventListener('loadend', bounds.fileReadLoadEnd, false);
-        this.fileReader.removeEventListener('load', bounds.fileReadLoad, false);
-        this.fileReader.removeEventListener('progress', bounds.fileReadProgress, false);
+        fileReader.removeEventListener('abort', bounds.fileReadAbort, false);
+        fileReader.removeEventListener('error', bounds.fileReadError, false);
+        fileReader.removeEventListener('loadstart', bounds.fileReadLoadStart, false);
+        fileReader.removeEventListener('loadend', bounds.fileReadLoadEnd, false);
+        fileReader.removeEventListener('load', bounds.fileReadLoad, false);
+        fileReader.removeEventListener('progress', bounds.fileReadProgress, false);
+
+        window.removeEventListener('focus', bounds.windowFocus, false);
+        window.removeEventListener('dragover', bounds.onDragOver, true);
+        window.removeEventListener('dragenter', bounds.onDragEnter, true);
+        window.removeEventListener('dragleave', bounds.onDragLeave, true);
+
+        document.removeEventListener('drop', bounds.onDrop, true);
 
         this.eventBounds = null;
+    };
+
+    ImageLoader.prototype.showDropZone = function (blurOnly) {
+        var ui = this.ui,
+            main = ui.documentMain,
+            mainClone = main.cloneNode(true),
+            dropZone = ui.dropZoneContainer;
+
+        blurOnly = !!blurOnly;
+
+        main.classList.add('hidden');
+        mainClone.classList.add('clonned');
+
+        if (!blurOnly) {
+            dropZone.classList.remove('hidden');
+        }
+
+        main.parentElement.insertBefore(mainClone, dropZone);
+
+        // Force to apply styles
+        if (window.getComputedStyle(mainClone).filter) {
+            mainClone.classList.add('blurred');
+            dropZone.classList.add('faded');
+        }
+
+        // Cache props
+        ui.clonedMain = mainClone;
+    };
+
+    ImageLoader.prototype.hideDropZone = function () {
+        var ui = this.ui,
+            main = ui.documentMain,
+            mainClone = ui.clonedMain,
+            dropZone = ui.dropZoneContainer;
+
+        mainClone.classList.remove('blurred');
+        dropZone.classList.remove('faded');
+
+        setTimeout(function () {
+            mainClone.parentElement.removeChild(mainClone);
+            main.classList.remove('hidden');
+            dropZone.classList.add('hidden');
+        }, 400);
+
+        // Cache props
+        ui.clonedMain = null;
     };
 
     ImageLoader.prototype.destroy = function () {
         this.unbindEvents();
         this.hiddenInput = null;
-        this.element = null;
+        this.ui = null;
     };
 
     return ImageLoader;

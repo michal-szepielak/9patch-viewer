@@ -91,7 +91,6 @@ var NinePatch = (function () {
 
         this.canvas = this.createCanvasFromImage(img);
         gridInfo = this.getGridInfo();
-
         this.createGrid(gridInfo.verticalStretches, gridInfo.horizontalStretches);
         this.setupContent(gridInfo.horizontalPadding, gridInfo.verticalPadding);
     };
@@ -158,6 +157,8 @@ var NinePatch = (function () {
             if (!item.flexible) {
                 el.style.width = item.size + 'px';
                 el.style.minWidth = item.size + 'px';
+            } else {
+                el.classList.add('flexible');
             }
 
             tile = {
@@ -187,6 +188,7 @@ var NinePatch = (function () {
             el = document.createElement('tr');
             if (item.flexible) {
                 el.style.height = 100 + '%';
+                el.classList.add('flexible');
             } else {
                 el.style.height = item.size + 'px';
                 el.style.minHeight = item.size + 'px';

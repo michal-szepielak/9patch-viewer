@@ -64,6 +64,7 @@ h1.header-with-logo {
 .preview {
   position: relative;
   display: block;
+  margin-top: 36px;
 }
 
 #preview-container {
@@ -89,9 +90,35 @@ table {
   border-collapse: collapse;
   box-sizing: border-box;
 }
-table td {
-  box-sizing: border-box;
-  background-size: 100% 100%;
+table tr {
+  @line-marker-size: 3px;
+  td {
+    box-sizing: border-box;
+    background-size: 100% 100%;
+    // Keep border to not break layout, but make it same as background
+    border: 0 solid @background-color;
+
+    &:first-child {
+      border-left-width: @line-marker-size;
+    }
+    &:last-child {
+      border-right-width: @line-marker-size;
+    }
+  }
+
+  &:first-child td {
+    border-top-width: @line-marker-size;
+  }
+
+  &:last-child td {
+    border-bottom-width: @line-marker-size;
+  }
+
+  &.flexible td,
+  td.flexible {
+    border-color: @secondary-color;
+  }
+
 }
 
 .preview p {

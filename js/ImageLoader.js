@@ -1,3 +1,5 @@
+/*jslint browser:true, plusplus:true*/
+/*global FileReader*/
 var ImageLoader = (function () {
     'use strict';
 
@@ -33,8 +35,6 @@ var ImageLoader = (function () {
             this.onError = onError || function () { return false; };
             this.ui = uiObjects;
             this.ui.clonedMain = null;
-            this.build();
-            this.bindEvents();
 
             return this;
         };
@@ -66,14 +66,8 @@ var ImageLoader = (function () {
         self.onError(event);
     }
 
-    function fileReadLoadStart(self, event) {
+    function fileReadLoadStart(self) {
         self.setProgress(0);
-        console.log('fileReadLoadStart', event);
-    }
-
-    function fileReadLoadEnd(self, event) {
-        console.log('fileReadLoadEnd', event);
-
     }
 
     function fileReadLoad(self, event) {
@@ -137,7 +131,6 @@ var ImageLoader = (function () {
             }
             fileDropZoneOpened = false;
         }
-        console.log(event.target, event.relatedTarget);
 
         return false;
     }
@@ -154,6 +147,11 @@ var ImageLoader = (function () {
         return false;
     }
 
+    ImageLoader.prototype.init = function () {
+        this.build();
+        this.bindEvents();
+    };
+
     ImageLoader.prototype.setProgress = function (progress) {
         this.setLoaderState('progress', Math.floor(progress / 10) * 10);
     };
@@ -163,24 +161,23 @@ var ImageLoader = (function () {
 
         state = state.toLowerCase();
         switch (state) {
-            case 'idle':
-            case 'error':
-            case 'success':
-                stateClass = state;
-                break;
-            case 'progress':
-                stateClass = state + '-' + variant;
-                break;
-            default:
-                stateClass = '';
+        case 'idle':
+        case 'error':
+        case 'success':
+            stateClass = state;
+            break;
+        case 'progress':
+            stateClass = state + '-' + variant;
+            break;
+        default:
+            stateClass = '';
         }
 
         this.ui.element.className = 'btn ' + stateClass;
     };
 
     ImageLoader.prototype.build = function () {
-        var input = document.createElement('input'),
-            parent = this.ui.element.parentElement;
+        var input = document.createElement('input');
 
         input.type = 'file';
         input.accept = '.png';
@@ -196,7 +193,6 @@ var ImageLoader = (function () {
                 fileReadAbort: fileReadInterruption.bind(null, this),
                 fileReadError: fileReadInterruption.bind(null, this),
                 fileReadLoadStart: fileReadLoadStart.bind(null, this),
-                fileReadLoadEnd: fileReadLoadEnd.bind(null, this),
                 fileReadLoad: fileReadLoad.bind(null, this),
                 fileReadProgress: fileReadProgress.bind(null, this),
                 onDragOver: preventDefault.bind(null),
@@ -211,7 +207,6 @@ var ImageLoader = (function () {
         fileReader.addEventListener('abort', bounds.fileReadAbort, false);
         fileReader.addEventListener('error', bounds.fileReadError, false);
         fileReader.addEventListener('loadstart', bounds.fileReadLoadStart, false);
-        fileReader.addEventListener('loadend', bounds.fileReadLoadEnd, false);
         fileReader.addEventListener('load', bounds.fileReadLoad, false);
         fileReader.addEventListener('progress', bounds.fileReadProgress, false);
 
@@ -226,15 +221,15 @@ var ImageLoader = (function () {
     };
 
     ImageLoader.prototype.unbindEvents = function () {
-        var fileReader = this.fileReader;
+        var fileReader = this.fileReader,
+            bounds = this.eventBounds;
 
-        this.ui.element.removeEventListener('click', this.eventBounds.elementClick, true);
-        this.hiddenInput.removeEventListener('change', this.eventBounds.fileChange, true);
+        this.ui.element.removeEventListener('click', bounds.elementClick, true);
+        this.hiddenInput.removeEventListener('change', bounds.fileChange, true);
 
         fileReader.removeEventListener('abort', bounds.fileReadAbort, false);
         fileReader.removeEventListener('error', bounds.fileReadError, false);
         fileReader.removeEventListener('loadstart', bounds.fileReadLoadStart, false);
-        fileReader.removeEventListener('loadend', bounds.fileReadLoadEnd, false);
         fileReader.removeEventListener('load', bounds.fileReadLoad, false);
         fileReader.removeEventListener('progress', bounds.fileReadProgress, false);
 

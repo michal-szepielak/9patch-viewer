@@ -1,4 +1,7 @@
+/*jslint browser:true, plusplus:true*/
+/*global NinePatch, ImageLoader*/
 document.addEventListener('DOMContentLoaded', function () {
+    'use strict';
     var uploadButton = document.getElementById('upload-button'),
         previewContainer = document.getElementById('preview-container'),
         img = new Image(),
@@ -35,4 +38,5 @@ document.addEventListener('DOMContentLoaded', function () {
     }, function (error) {
         console.log(error);
     });
+    imageLoader.init();
 });

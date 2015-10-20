@@ -187,7 +187,6 @@ var NinePatch = (function () {
             item = rowData[i];
             el = document.createElement('tr');
             if (item.flexible) {
-                el.style.height = 100 + '%';
                 el.classList.add('flexible');
             } else {
                 el.style.height = item.size + 'px';

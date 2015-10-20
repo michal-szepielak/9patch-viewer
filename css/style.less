@@ -96,26 +96,27 @@ table tr {
     box-sizing: border-box;
     background-size: 100% 100%;
     // Keep border to not break layout, but make it same as background
-    border: 0 solid @background-color;
-
-    &:first-child {
-      border-left-width: @line-marker-size;
-    }
-    &:last-child {
-      border-right-width: @line-marker-size;
-    }
+    border: ~"0 solid @{background-color}";
   }
 
-  &:first-child td {
+  // Build outside edge
+  &:first-child > td {
     border-top-width: @line-marker-size;
   }
 
-  &:last-child td {
+  &:last-child > td {
     border-bottom-width: @line-marker-size;
   }
+  td:first-child {
+    border-left-width: @line-marker-size;
+  }
+  td:last-child {
+    border-right-width: @line-marker-size;
+  }
 
-  &.flexible td,
-  td.flexible {
+
+  &.flexible td:first-child,
+  &:first-child td.flexible {
     border-color: @secondary-color;
   }
 

@@ -201,20 +201,20 @@ table tr td {
   background-size: 100% 100%;
   border: 0 solid #e6e8ec;
 }
+table tr:first-child > td {
+  border-top-width: 3px;
+}
+table tr:last-child > td {
+  border-bottom-width: 3px;
+}
 table tr td:first-child {
   border-left-width: 3px;
 }
 table tr td:last-child {
   border-right-width: 3px;
 }
-table tr:first-child td {
-  border-top-width: 3px;
-}
-table tr:last-child td {
-  border-bottom-width: 3px;
-}
-table tr.flexible td,
-table tr td.flexible {
+table tr.flexible td:first-child,
+table tr:first-child td.flexible {
   border-color: #79daf0;
 }
 .preview p {

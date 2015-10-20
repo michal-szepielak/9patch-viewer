@@ -11,6 +11,8 @@ var ImageLoader = (function () {
         },
         fileDialogOpened = false,
         fileDropZoneOpened = false,
+        clickTimeout = null,
+        hideTimeout = null,
         ImageLoader = function (uiObjects, onImageLoad, onError) {
 
             if (!uiObjects.element) {
@@ -42,7 +44,13 @@ var ImageLoader = (function () {
     function elementClick(self, event) {
         event.stopPropagation();
         self.showDropZone(true);
-        setTimeout(function () {
+
+        if (clickTimeout) {
+            window.clearTimeout(clickTimeout);
+            clickTimeout = null;
+        }
+
+        clickTimeout = setTimeout(function () {
             self.hiddenInput.click();
             fileDialogOpened = true;
         }, 400);
@@ -50,14 +58,9 @@ var ImageLoader = (function () {
 
     function fileChange(self, event) {
         event.stopPropagation();
-        self.hideDropZone();
-
-        if (self.fileReader.readyState === FileReader.LOADING) {
-            self.fileReader.abort();
-        }
 
         if (event.target && event.target.files && event.target.files[0]) {
-            self.fileReader.readAsDataURL(event.target.files[0]);
+            self.readFile(event.target.files[0]);
         }
     }
 
@@ -143,6 +146,10 @@ var ImageLoader = (function () {
         }
         fileDropZoneOpened = false;
         dragCollection = [];
+
+        if (event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0]) {
+            self.readFile(event.dataTransfer.files[0]);
+        }
 
         return false;
     }
@@ -246,13 +253,19 @@ var ImageLoader = (function () {
     ImageLoader.prototype.showDropZone = function (blurOnly) {
         var ui = this.ui,
             main = ui.documentMain,
-            mainClone = main.cloneNode(true),
+            mainClone,
+            mainClone = ui.clonedMain || main.cloneNode(true),
             dropZone = ui.dropZoneContainer;
 
         blurOnly = !!blurOnly;
 
         main.classList.add('hidden');
         mainClone.classList.add('clonned');
+
+        if (hideTimeout) {
+            window.clearTimeout(hideTimeout);
+            hideTimeout = null;
+        }
 
         if (!blurOnly) {
             dropZone.classList.remove('hidden');
@@ -279,14 +292,30 @@ var ImageLoader = (function () {
         mainClone.classList.remove('blurred');
         dropZone.classList.remove('faded');
 
-        setTimeout(function () {
+        if (hideTimeout) {
+            window.clearTimeout(hideTimeout);
+            hideTimeout = null;
+        }
+
+        hideTimeout = setTimeout(function () {
             mainClone.parentElement.removeChild(mainClone);
             main.classList.remove('hidden');
             dropZone.classList.add('hidden');
+            // Cache props
+            ui.clonedMain = null;
         }, 400);
+    };
 
-        // Cache props
-        ui.clonedMain = null;
+    ImageLoader.prototype.readFile = function (file) {
+        var fileReader = this.fileReader;
+
+        if (fileReader.readyState === FileReader.LOADING) {
+            fileReader.abort();
+        }
+
+        if (file) {
+            fileReader.readAsDataURL(file);
+        }
     };
 
     ImageLoader.prototype.destroy = function () {

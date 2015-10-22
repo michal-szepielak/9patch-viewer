@@ -10,6 +10,7 @@ var NinePatch = (function () {
     var NinePatch = function (img, previewContainer) {
         this.canvas = null;
         this.previewContainer = previewContainer;
+        this.contentRulers = null;
         this.createPreviewFromImage(img);
     };
 
@@ -86,9 +87,24 @@ var NinePatch = (function () {
         return tmpCanvas.toDataURL('image/png');
     }
 
+    NinePatch.prototype.createContentRulersBox = function () {
+        var table = document.createElement('table'),
+            preview = this.previewContainer;
+
+        table.innerHTML = '<tr><td colspan="3"></td></tr>'
+            + '<tr><td colspan="3"></td></tr>'
+            + '<tr><td></td><td></td><td></td></tr>';
+
+        table.className = 'content-rulers';
+        preview.appendChild(table);
+
+        return table;
+    };
+
     NinePatch.prototype.createPreviewFromImage = function (img) {
         var gridInfo;
 
+        this.contentRulers = this.createContentRulersBox();
         this.canvas = this.createCanvasFromImage(img);
         gridInfo = this.getGridInfo();
         this.createGrid(gridInfo.verticalStretches, gridInfo.horizontalStretches);
@@ -198,6 +214,7 @@ var NinePatch = (function () {
         }
 
         el = document.createElement('table');
+        el.className = 'tiles';
         el.appendChild(doc);
         this.previewContainer.appendChild(el);
     };
@@ -205,6 +222,7 @@ var NinePatch = (function () {
     NinePatch.prototype.setupContent = function (horizontal, vertical) {
         var container = document.getElementById('content-container'),
             containerStyle = container.style,
+            contentRulers = this.contentRulers,
             area;
 
         // If there are multiple block, set the padding left
@@ -238,6 +256,11 @@ var NinePatch = (function () {
         } else {
             containerStyle.paddingBottom = 0;
         }
+
+        contentRulers.querySelector('tr:first-child').style.height = containerStyle.paddingTop;
+        contentRulers.querySelector('tr:last-child').style.height = containerStyle.paddingBottom;
+        contentRulers.querySelector('tr:last-child td:first-child').style.width = containerStyle.paddingLeft;
+        contentRulers.querySelector('tr:last-child td:last-child').style.width = containerStyle.paddingRight;
     };
 
     NinePatch.prototype.destroy = function () {

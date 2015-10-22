@@ -2,6 +2,7 @@
 @secondary-color: #79daf0;
 @primary-color: #a4aab3;
 @main-text-color: #505661;
+@line-marker-size: 3px;
 
 @import "../libs/mixins";
 @import "imports/button";
@@ -76,6 +77,29 @@ h1.header-with-logo {
   z-index: 0;
 }
 
+.content-rulers {
+  border-left-width: 0;
+  border-top-width: 0;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 1;
+
+  tr {
+    td {
+      border: ~"0 solid @{secondary-color}";
+    }
+    &:nth-child(2) td:last-child {
+      border-right-width: @line-marker-size;
+    }
+
+    &:last-child td:nth-child(2) {
+      border-bottom-width: @line-marker-size;
+    }
+  }
+
+}
+
 .content-container {
   overflow: hidden;
   outline: none;
@@ -90,8 +114,7 @@ table {
   border-collapse: collapse;
   box-sizing: border-box;
 }
-table tr {
-  @line-marker-size: 3px;
+table.tiles tr {
   td {
     box-sizing: border-box;
     background-size: 100% 100%;

@@ -1,5 +1,4 @@
-/*jslint browser:true, plusplus:true*/
-/*global FileReader*/
+/*global FileReader, console*/
 var ImageLoader = (function () {
     'use strict';
 
@@ -253,7 +252,6 @@ var ImageLoader = (function () {
     ImageLoader.prototype.showDropZone = function (blurOnly) {
         var ui = this.ui,
             main = ui.documentMain,
-            mainClone,
             mainClone = ui.clonedMain || main.cloneNode(true),
             dropZone = ui.dropZoneContainer;
 

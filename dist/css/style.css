@@ -120,6 +120,76 @@
 .hidden {
   display: none;
 }
+.nine-patch-preview {
+  position: relative;
+  display: block;
+  margin-top: 36px;
+}
+.nine-patch-preview p {
+  margin: 0;
+  padding: 100px;
+  z-index: 2;
+  position: relative;
+}
+.nine-patch-preview .preview-container {
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  z-index: 0;
+}
+.nine-patch-preview .preview-container .content-rulers {
+  border-left-width: 0;
+  border-top-width: 0;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 1;
+}
+.nine-patch-preview .preview-container .content-rulers tr td {
+  border: 0 solid #79daf0;
+}
+.nine-patch-preview .preview-container .content-rulers tr:nth-child(2) td:last-child {
+  border-right-width: 3px;
+}
+.nine-patch-preview .preview-container .content-rulers tr:last-child td:nth-child(2) {
+  border-bottom-width: 3px;
+}
+.nine-patch-preview .preview-container .content-container {
+  overflow: hidden;
+  outline: none;
+}
+.nine-patch-preview .preview-container table {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-collapse: collapse;
+  box-sizing: border-box;
+}
+.nine-patch-preview .preview-container table.tiles tr td {
+  box-sizing: border-box;
+  background-size: 100% 100%;
+  border: 0 solid #e6e8ec;
+}
+.nine-patch-preview .preview-container table.tiles tr:first-child > td {
+  border-top-width: 3px;
+}
+.nine-patch-preview .preview-container table.tiles tr:last-child > td {
+  border-bottom-width: 3px;
+}
+.nine-patch-preview .preview-container table.tiles tr td:first-child {
+  border-left-width: 3px;
+}
+.nine-patch-preview .preview-container table.tiles tr td:last-child {
+  border-right-width: 3px;
+}
+.nine-patch-preview .preview-container table.tiles tr.flexible td:first-child,
+.nine-patch-preview .preview-container table.tiles tr:first-child td.flexible {
+  border-color: #79daf0;
+}
 html,
 body {
   font-family: 'Lato', sans-serif;
@@ -170,73 +240,11 @@ h1.header-with-logo span.logo {
   margin: 0 auto;
   padding: 60px 2em;
 }
-.preview {
+.resize-handler {
   position: relative;
   display: block;
-  margin-top: 36px;
-}
-#preview-container {
-  display: inline-block;
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  z-index: 0;
-}
-.content-rulers {
-  border-left-width: 0;
-  border-top-width: 0;
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  z-index: 1;
-}
-.content-rulers tr td {
-  border: 0 solid #79daf0;
-}
-.content-rulers tr:nth-child(2) td:last-child {
-  border-right-width: 3px;
-}
-.content-rulers tr:last-child td:nth-child(2) {
-  border-bottom-width: 3px;
-}
-.content-container {
-  overflow: hidden;
-  outline: none;
-}
-table {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-collapse: collapse;
-  box-sizing: border-box;
-}
-table.tiles tr td {
-  box-sizing: border-box;
-  background-size: 100% 100%;
-  border: 0 solid #e6e8ec;
-}
-table.tiles tr:first-child > td {
-  border-top-width: 3px;
-}
-table.tiles tr:last-child > td {
-  border-bottom-width: 3px;
-}
-table.tiles tr td:first-child {
-  border-left-width: 3px;
-}
-table.tiles tr td:last-child {
-  border-right-width: 3px;
-}
-table.tiles tr.flexible td:first-child,
-table.tiles tr:first-child td.flexible {
-  border-color: #79daf0;
-}
-.preview p {
-  margin: 0;
-  padding: 100px;
-  z-index: 2;
-  position: relative;
+  float: right;
+  width: 30px;
+  height: 30px;
+  background-color: red;
 }

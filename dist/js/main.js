@@ -38,4 +38,6 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log(error);
     });
     imageLoader.init();
+
+    var z = new SimpleResize(document.querySelector('.resize-handler'));
 });

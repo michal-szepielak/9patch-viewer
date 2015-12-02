@@ -7,6 +7,7 @@
 @import "../../libs/mixins";
 @import "imports/button";
 @import "imports/drop-zone";
+@import "imports/9patch-preview";
 
 html, body {
   font-family: 'Lato', sans-serif;
@@ -62,92 +63,13 @@ h1.header-with-logo {
 }
 
 
-.preview {
+
+.resize-handler {
   position: relative;
   display: block;
-  margin-top: 36px;
+  float: right;
+  width: 30px;
+  height: 30px;
+  background-color: red;
 }
 
-#preview-container {
-  display: inline-block;
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  z-index: 0;
-}
-
-.content-rulers {
-  border-left-width: 0;
-  border-top-width: 0;
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  z-index: 1;
-
-  tr {
-    td {
-      border: ~"0 solid @{secondary-color}";
-    }
-    &:nth-child(2) td:last-child {
-      border-right-width: @line-marker-size;
-    }
-
-    &:last-child td:nth-child(2) {
-      border-bottom-width: @line-marker-size;
-    }
-  }
-
-}
-
-.content-container {
-  overflow: hidden;
-  outline: none;
-}
-
-table {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-collapse: collapse;
-  box-sizing: border-box;
-}
-table.tiles tr {
-  td {
-    box-sizing: border-box;
-    background-size: 100% 100%;
-    // Keep border to not break layout, but make it same as background
-    border: ~"0 solid @{background-color}";
-  }
-
-  // Build outside edge
-  &:first-child > td {
-    border-top-width: @line-marker-size;
-  }
-
-  &:last-child > td {
-    border-bottom-width: @line-marker-size;
-  }
-  td:first-child {
-    border-left-width: @line-marker-size;
-  }
-  td:last-child {
-    border-right-width: @line-marker-size;
-  }
-
-
-  &.flexible td:first-child,
-  &:first-child td.flexible {
-    border-color: @secondary-color;
-  }
-
-}
-
-.preview p {
-  margin: 0;
-  padding: 100px;
-  z-index: 2;
-  position: relative;
-}

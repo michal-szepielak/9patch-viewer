@@ -51,10 +51,9 @@ var SimpleResize = (function () {
         }
 
         handlerStyle.left = position * 100 + '%';
+
+        // Take into account, that container is centered
         this.container.style.width = (2 * position - 1) * 100 + '%';
-
-
-
     };
 
     SimpleResize.prototype.stopDrag = function (event) {

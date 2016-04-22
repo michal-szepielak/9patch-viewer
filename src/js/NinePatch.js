@@ -197,6 +197,8 @@ var NinePatch = (function () {
             item,
             cells,
             el,
+            minWidth = 0,
+            tmp,
             i;
 
         for (i = 0; i < rowData.length; i++) {
@@ -211,12 +213,36 @@ var NinePatch = (function () {
             cells = this.createCells(cellData, item);
             el.appendChild(cells);
             doc.appendChild(el);
+
+            tmp = this.getRowMinWidth(el);
+            if (tmp > minWidth) {
+                minWidth = tmp;
+            }
         }
 
         el = document.createElement('table');
         el.className = 'tiles';
         el.appendChild(doc);
         this.previewContainer.appendChild(el);
+        this.previewContainer.style.minWidth = (minWidth + 5) + 'px'; // Add 5px offset
+    };
+
+    NinePatch.prototype.getRowMinWidth = function (row) {
+        var i,
+            minWidth = 0,
+            children = row.children,
+            val;
+
+        for (i = 0; i < children.length; i++) {
+            val = children[i].style.minWidth;
+
+            if (val) {
+                val = parseInt(val, 10) || 0;
+                minWidth += val;
+            }
+        }
+
+        return minWidth;
     };
 
     NinePatch.prototype.setupContent = function (horizontal, vertical) {

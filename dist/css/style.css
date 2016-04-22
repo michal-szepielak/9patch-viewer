@@ -260,3 +260,9 @@ h1.header-with-logo span.logo {
 .resize-handler:hover {
   cursor: col-resize;
 }
+.tip {
+  margin-top: 30px;
+  font-style: italic;
+  color: #9ca2ae;
+  font-size: 0.9em;
+}

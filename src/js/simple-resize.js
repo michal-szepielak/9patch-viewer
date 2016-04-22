@@ -69,10 +69,7 @@ var SimpleResize = (function () {
 
     SimpleResize.prototype.bindEvents = function () {
         var bounds = this.eventBounds;
-
         this.handler.addEventListener('mousedown', bounds.mouseDown, false);
-
-
     };
 
     return SimpleResize;

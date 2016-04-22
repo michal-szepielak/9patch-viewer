@@ -250,8 +250,13 @@ h1.header-with-logo span.logo {
   position: absolute;
   display: block;
   right: 0;
-  width: 30px;
-  height: 30px;
-  margin-left: -15px;
-  background-color: red;
+  width: 14px;
+  height: 14px;
+  background-color: #a4aab3;
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  border-radius: 7px;
+}
+.resize-handler:hover {
+  cursor: col-resize;
 }

@@ -65,9 +65,13 @@ h1.header-with-logo {
   position: absolute;
   display: block;
   right: 0;
-  width: 30px;
-  height: 30px;
-  margin-left: -15px;
-  background-color: red;
+  width: 14px;
+  height: 14px;
+  background-color: @primary-color;
+  .border-radius(7px);
+
+  &:hover {
+    cursor: col-resize;
+  }
 }
 

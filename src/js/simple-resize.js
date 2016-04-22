@@ -18,14 +18,15 @@ var SimpleResize = (function () {
         };
 
         this.container = containerToResize;
-
-        this.bindEvents();
     }
 
-    SimpleResize.prototype.initDrag = function (e) {
+    SimpleResize.prototype.init = function () {
+        this.bindEvents();
+    };
+
+    SimpleResize.prototype.initDrag = function () {
         var bounds = this.eventBounds;
 
-        //this.startPosition.x = e.clientX;
         this.initialParams.maxWidth = document.body.clientWidth;
 
         document.addEventListener('mousemove', bounds.mouseMove, false);
@@ -35,8 +36,7 @@ var SimpleResize = (function () {
     SimpleResize.prototype.onDrag = function (event) {
         var handlerStyle = this.handler.style,
             position,
-            initialParams = this.initialParams,
-            diffX;
+            initialParams = this.initialParams;
 
         event.preventDefault();
 

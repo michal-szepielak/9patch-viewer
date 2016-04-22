@@ -1,4 +1,5 @@
-/*global NinePatch, ImageLoader, console*/
+/*global NinePatch, ImageLoader, SimpleResize, console*/
+
 document.addEventListener('DOMContentLoaded', function () {
     'use strict';
     var uploadButton = document.getElementById('upload-button'),
@@ -6,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
         img = new Image(),
         imageLoader,
         ninePatch,
+        resizer,
         ui;
 
     // Load preview bubble
@@ -39,8 +41,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     imageLoader.init();
 
-    var z = new SimpleResize(
+    resizer = new SimpleResize(
         document.querySelector('.resize-handler'),
         document.querySelector('.nine-patch-preview')
     );
+    resizer.init();
 });

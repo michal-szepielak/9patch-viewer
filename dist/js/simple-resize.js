@@ -5,6 +5,11 @@ var SimpleResize = (function () {
         var self = this;
 
         this.handler = handler;
+        this.initialParams = {
+            x: 0,
+            y: 0,
+            maxWidth: 0
+        };
 
         this.eventBounds = {
             mouseMove: self.onDrag.bind(self),
@@ -12,26 +17,44 @@ var SimpleResize = (function () {
             mouseDown: self.initDrag.bind(self)
         };
 
+        this.container = containerToResize;
+
         this.bindEvents();
     }
 
     SimpleResize.prototype.initDrag = function (e) {
         var bounds = this.eventBounds;
 
+        //this.startPosition.x = e.clientX;
+        this.initialParams.maxWidth = document.body.clientWidth;
+
         document.addEventListener('mousemove', bounds.mouseMove, false);
         document.addEventListener('mouseup', bounds.mouseUp, false);
     };
 
     SimpleResize.prototype.onDrag = function (event) {
-        var handlerStyle = this.handler.style;
+        var handlerStyle = this.handler.style,
+            position,
+            initialParams = this.initialParams,
+            diffX;
 
         event.preventDefault();
-        console.log('mousemove', event);
-        //this.handler.style.left = (event.pageX - window.innerWidth) + "px";
-        if (event.pageX <= window.innerWidth/2) {
-            return;
+
+        position = event.clientX / initialParams.maxWidth;
+
+        if (position < 0.5) {
+            position = 0.5;
         }
-        handlerStyle.left = ((parseInt(handlerStyle.left, 10) || 0) + event.movementX) + "px";
+
+        if (position > 1) {
+            position = 1;
+        }
+
+        handlerStyle.left = position * 100 + '%';
+        this.container.style.width = (2 * position - 1) * 100 + '%';
+
+
+
     };
 
     SimpleResize.prototype.stopDrag = function (event) {
@@ -46,16 +69,9 @@ var SimpleResize = (function () {
 
 
     SimpleResize.prototype.bindEvents = function () {
-        var handler = this.handler,
-            self = this;
+        var bounds = this.eventBounds;
 
-        handler.addEventListener('mousedown', function (event) {
-            event.preventDefault();
-
-            self.initDrag();
-
-            console.log('mousedown');
-        }, false);
+        this.handler.addEventListener('mousedown', bounds.mouseDown, false);
 
 
     };

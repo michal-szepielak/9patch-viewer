@@ -39,5 +39,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     imageLoader.init();
 
-    var z = new SimpleResize(document.querySelector('.resize-handler'));
+    var z = new SimpleResize(
+        document.querySelector('.resize-handler'),
+        document.querySelector('.nine-patch-preview')
+    );
 });

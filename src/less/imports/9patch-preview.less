@@ -2,6 +2,8 @@
   position: relative;
   display: block;
   margin-top: 36px;
+  margin-left: auto;
+  margin-right: auto;
 
   p {
     margin: 0;
@@ -11,13 +13,20 @@
   }
 }
 
-.nine-patch-preview .preview-container {
-  display: inline-block;
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  z-index: 0;
+.preview-wrapper {
+  display: block;
+  position: relative;
+}
+
+.nine-patch-preview  {
+  .preview-container {
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    z-index: 0;
+  }
 
   .content-rulers {
     border-left-width: 0;
@@ -83,7 +92,6 @@
     &:first-child td.flexible {
       border-color: @secondary-color;
     }
-
   }
 }
 

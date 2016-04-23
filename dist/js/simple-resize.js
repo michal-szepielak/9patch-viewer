@@ -25,9 +25,13 @@ var SimpleResize = (function () {
     };
 
     SimpleResize.prototype.initDrag = function () {
-        var bounds = this.eventBounds;
+        var bounds = this.eventBounds,
+            bodyWidth = document.body.clientWidth,
+            wrapperWidth = this.container.parentElement.clientWidth;
 
-        this.initialParams.maxWidth = document.body.clientWidth;
+
+        this.initialParams.maxWidth = wrapperWidth;
+        this.initialParams.offsetWidth = (bodyWidth - wrapperWidth) / 2;
 
         document.addEventListener('mousemove', bounds.mouseMove, false);
         document.addEventListener('mouseup', bounds.mouseUp, false);
@@ -40,7 +44,7 @@ var SimpleResize = (function () {
 
         event.preventDefault();
 
-        position = event.clientX / initialParams.maxWidth;
+        position = (event.clientX - initialParams.offsetWidth) / initialParams.maxWidth;
 
         if (position < 0.5) {
             position = 0.5;

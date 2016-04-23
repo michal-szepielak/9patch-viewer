@@ -253,6 +253,7 @@ h1.header-with-logo span.logo {
   width: 14px;
   height: 14px;
   background-color: #a4aab3;
+  margin-left: -7px;
   -webkit-border-radius: 7px;
   -moz-border-radius: 7px;
   border-radius: 7px;

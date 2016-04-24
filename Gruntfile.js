@@ -16,7 +16,7 @@ module.exports = function(grunt) {
 				main: {
 					cwd: CFG.SRC_PATH,
 					expand: true,
-					src: ['./**', '!./less/**'],
+					src: ['./**', '!./less/**', '!./js/**'],
 					dest: CFG.BUILD_PATH
 				}
 			},
@@ -29,6 +29,14 @@ module.exports = function(grunt) {
 						todo: true,
 						plusplus: true,
 						predef: ['window', 'document']
+					}
+				}
+			},
+
+			uglify: {
+				dist: {
+					files: {
+						'dist/js/app.min.js': ['src/js/ImageLoader.js', 'src/js/NinePatch.js', 'src/js/simple-resize.js', 'src/js/main.js']
 					}
 				}
 			},
@@ -49,8 +57,9 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-less');
+	grunt.loadNpmTasks('grunt-contrib-uglify');
 
 	// Task list
- 	grunt.registerTask('build', ['clean', 'jslint', 'copy', 'less']);
+ 	grunt.registerTask('build', ['clean', 'jslint', 'copy', 'uglify:dist', 'less']);
 	grunt.registerTask('default', ['build']);
 };

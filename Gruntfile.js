@@ -5,6 +5,12 @@ module.exports = function(grunt) {
             BUILD_PATH: 'dist/',
             SRC_PATH: 'src/'
         },
+		JS_FILES = [
+			CFG.SRC_PATH + 'js/ImageLoader.js',
+			CFG.SRC_PATH + 'js/NinePatch.js',
+			CFG.SRC_PATH + 'js/simple-resize.js',
+			CFG.SRC_PATH + 'js/main.js'
+		],
         initConfig = {
 			pkg: grunt.file.readJSON('package.json'),
 
@@ -36,7 +42,25 @@ module.exports = function(grunt) {
 			uglify: {
 				dist: {
 					files: {
-						'dist/js/app.min.js': ['src/js/ImageLoader.js', 'src/js/NinePatch.js', 'src/js/simple-resize.js', 'src/js/main.js']
+						'dist/js/app.min.js': JS_FILES
+					}
+				}
+			},
+
+			injector: {
+				options: {
+					template: 'src/index.html',
+					addRootSlash: false,
+					ignorePath: 'dist'
+				},
+				dev: {
+					files:{
+						'dist/index.html' : JS_FILES
+					}
+				},
+				build: {
+					files:{
+						'dist/index.html' : ['dist/js/*.js']
 					}
 				}
 			},
@@ -44,7 +68,7 @@ module.exports = function(grunt) {
 			less : {
                 main: {
                     files: [{
-                        src: [CFG.SRC_PATH + '/less/style.less'], dest: CFG.BUILD_PATH + '/css/style.css'
+                        src: [CFG.SRC_PATH + 'less/style.less'], dest: CFG.BUILD_PATH + 'css/style.css'
                     }]
                 }
 			}
@@ -58,8 +82,10 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-injector');
 
 	// Task list
- 	grunt.registerTask('build', ['clean', 'jslint', 'copy', 'uglify:dist', 'less']);
+	grunt.registerTask('build', ['clean', 'jslint', 'copy', 'uglify:dist', 'injector:build', 'less']);
+	grunt.registerTask('dev', ['clean', 'copy', 'injector:dev', 'less']);
 	grunt.registerTask('default', ['build']);
 };

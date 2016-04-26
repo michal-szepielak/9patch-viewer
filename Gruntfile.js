@@ -71,6 +71,18 @@ module.exports = function(grunt) {
                         src: [CFG.SRC_PATH + 'less/style.less'], dest: CFG.BUILD_PATH + 'css/style.css'
                     }]
                 }
+			},
+
+			cssmin: {
+				options: {
+					shorthandCompacting: false,
+					roundingPrecision: -1
+				},
+				target: {
+					files: {
+						'dist/css/style.css': [CFG.BUILD_PATH + 'css/*.css']
+					}
+				}
 			}
 		};
 	grunt.initConfig(initConfig);
@@ -83,9 +95,10 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-injector');
+	grunt.loadNpmTasks('grunt-contrib-cssmin');
 
 	// Task list
-	grunt.registerTask('build', ['clean', 'jslint', 'copy', 'uglify:dist', 'injector:build', 'less']);
+	grunt.registerTask('build', ['clean', 'jslint', 'copy', 'uglify:dist', 'injector:build', 'less', 'cssmin']);
 	grunt.registerTask('dev', ['clean', 'copy', 'injector:dev', 'less']);
 	grunt.registerTask('default', ['build']);
 };
